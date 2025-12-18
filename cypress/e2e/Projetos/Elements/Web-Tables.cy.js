@@ -48,18 +48,12 @@ it('CRUD completo (Create, Read, Update, Delete)', ()=>{
 
     // READ - Lendo informações de input de usuário
 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)')
-        .should('contain.text', 'Joao')
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)')
-        .should('contain.text', 'Silva')
-    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]')
-        .should('contain.text', '31')    
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)')
-        .should('contain.text', 'exemplo@teste.com.br')
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)')
-        .should('contain.text', '3000') 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)')
-        .should('contain.text', 'TI')
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)').should('contain.text', firstName)
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)').should('contain.text', lastName)
+    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]').should('contain.text', age)    
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)').should('contain.text', userEmail)
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)').should('contain.text', salary) 
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)').should('contain.text', department)
 
     // UPDATE - Editando dados do Usuário
     cy.get('#edit-record-4').click()
@@ -86,19 +80,12 @@ it('CRUD completo (Create, Read, Update, Delete)', ()=>{
 
 
      // READ - Lendo informações de input de usuário
-
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)')
-        .should('contain.text', 'Joao Julio')
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)')
-        .should('contain.text', 'Silva Oliveira')
-    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]')
-        .should('contain.text', '35')    
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)')
-        .should('contain.text', 'exemplo2@teste.com.br')
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)')
-        .should('contain.text', '4500') 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)')
-        .should('contain.text', 'TI - Novo Departamento')
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)').should('contain.text', firstName)
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)').should('contain.text', lastName)
+    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]').should('contain.text', age)    
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)').should('contain.text', userEmail)
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)').should('contain.text', salary) 
+    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)').should('contain.text', department)
 
     // Delete
     cy.get('#delete-record-4').click()
@@ -156,9 +143,10 @@ it('CRUD completo (Create, Read, Update, Delete)', ()=>{
         // Preenche com letras válidas
         cy.get('#firstName').type('Joao Julio').should('have.value', 'Joao Julio')
         cy.get('#lastName').type('Silva Oliveira').should('have.value', 'Silva Oliveira')
+        
         // Testa inválido (números)
         cy.get('#firstName').clear().type('123') // .should('not.have.value', '123') -> O site demoQA aceita números no Nome
-        cy.get('#lastName').clear().type('123')
+        cy.get('#lastName').clear().type('123') // .should('not.have.value', '123') -> O site demoQA aceita números no Nome
 
         // Preenche com email válido
         cy.get('#userEmail').type('exemplo2@teste.com.br').should('have.value', 'exemplo2@teste.com.br')

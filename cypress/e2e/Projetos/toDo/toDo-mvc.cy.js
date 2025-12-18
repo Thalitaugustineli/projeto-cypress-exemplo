@@ -56,7 +56,7 @@ describe('Example to-do app', () => {
       cy.get('[data-id="7"] > .view > .toggle').click()      
   })
 
-    it.only('Limpando Seleção de Tarefas', () => {
+    it('Limpando Seleção de Tarefas', () => {
     cy.get('.new-todo').should('be.visible').click()
       .type('Tarefa 1{enter}')
       .type('Tarefa 2{enter}')

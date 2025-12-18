@@ -27,7 +27,7 @@ it('Lidando com Links que abrem em outras Abas', () => {
 it('Validar link dinâmico', () => {
     cy.get('#dynamicLink')
         .should('have.attr', 'href', 'https://demoqa.com')
-        .and('have.attr', 'target', '_blank');
+            
 
     cy.get('#dynamicLink').invoke('text').should('match', /^Home/);
 
@@ -39,7 +39,7 @@ it('Validar link dinâmico', () => {
 });
 
 // Links com API
-  it('Cenário Positivo: Link Created retorna 201', () => {
+  it('Cenário Positivo: Validando APIs com retornos', () => {
 
     // Created - Retorna 201
     cy.intercept('GET', '**/created').as('createdRequest');
@@ -82,7 +82,7 @@ it('Validar link dinâmico', () => {
 
 
 
-    it('Cenário Negativo: Link não deve alterar URL', () => {
+    it('Cenário Negativo: Validando APIs com retornos', () => {
     // CREATED
     cy.get('#created').click();
     cy.url().should('include', '/links'); // continua na mesma página

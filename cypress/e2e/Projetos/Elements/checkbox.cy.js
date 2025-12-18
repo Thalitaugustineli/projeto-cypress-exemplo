@@ -291,7 +291,7 @@ it('Usando o const  - Expand All', () => {
 
         })
 
-it.only('Estado indeterminado quando alguns filhos são marcados', () => {
+it('Estado indeterminado quando alguns filhos são marcados', () => {
     cy.get('button[aria-label="Expand all"]').click()
 
     // Marca apenas um filho (Private) do nó Documents

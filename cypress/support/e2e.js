@@ -19,9 +19,18 @@ import './commands'
 //Ignorar erros do JS sites Demo
 // Adicione em [cypress/support/e2e.js](cypress/support/e2e.js)
 Cypress.on('uncaught:exception', (err) => {
-  if (err && typeof err.message === 'string' && err.message.includes('Script error')) {
-    return false // não falha o teste
+  const msg = err && err.message
+  if (msg && typeof msg === 'string') {
+    // Ignora erros genéricos de script e o erro específico de "null.document"
+    if (
+      msg.includes('Script error') ||
+      msg.includes('Cannot read properties of null') ||
+      msg.includes("reading 'document'")
+    ) {
+      return false // não falha o teste
+    }
   }
+
   // Para outros erros, deixe o Cypress falhar (retornar true/undefined)
   return true
 })
