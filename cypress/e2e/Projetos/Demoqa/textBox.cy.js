@@ -1,7 +1,7 @@
 
 // Teste de Text Box: Campo de Texto para escrever e Enviar formulário
 
-describe('Text Box - Demo QA', () => {
+describe('Text Box', () => {
     beforeEach(() => {
         cy.visit('https://demoqa.com/text-box')
         cy.viewport(1920, 1080);   
