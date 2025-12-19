@@ -1,2 +1,3 @@
-# Ignorar screenshots do Cypress
+# Ignorar screenshots e vídeos do Cypress
 cypress/screenshots/
+cypress/videos/
