@@ -47,13 +47,23 @@ it('CRUD completo (Create, Read, Update, Delete)', ()=>{
     cy.get('#submit').click() // Enviar formulário
 
     // READ - Lendo informações de input de usuário
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(1)')
+        .should('contain.text', usuario.firstName);
 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)').should('contain.text', firstName)
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)').should('contain.text', lastName)
-    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]').should('contain.text', age)    
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)').should('contain.text', userEmail)
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)').should('contain.text', salary) 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)').should('contain.text', department)
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(2)')
+        .should('contain.text', usuario.lastName);
+
+        cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]')
+        .should('contain.text', usuario.age);
+
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(4)')
+        .should('contain.text', usuario.userEmail);
+
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(5)')
+        .should('contain.text', usuario.salary);
+
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(6)')
+        .should('contain.text', usuario.department);
 
     // UPDATE - Editando dados do Usuário
     cy.get('#edit-record-4').click()
@@ -79,13 +89,19 @@ it('CRUD completo (Create, Read, Update, Delete)', ()=>{
     cy.get('#submit').click() // Enviar formulário
 
 
-     // READ - Lendo informações de input de usuário
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(1)').should('contain.text', firstName)
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(2)').should('contain.text', lastName)
-    cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]').should('contain.text', age)    
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(4)').should('contain.text', userEmail)
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(5)').should('contain.text', salary) 
-    cy.get(':nth-child(4) > .rt-tr > :nth-child(6)').should('contain.text', department)
+        // READ - Lendo informações de input de usuário
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(1)')
+            .should('contain.text', usuarioUpdate.firstName)
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(2)')
+            .should('contain.text', usuarioUpdate.lastName)
+        cy.get(':nth-child(4) > .rt-tr > [style="flex: 40 0 auto; width: 40px; max-width: 40px;"]')
+            .should('contain.text', usuarioUpdate.age)    
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(4)')
+            .should('contain.text', usuarioUpdate.userEmail)
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(5)')
+            .should('contain.text', usuarioUpdate.salary) 
+        cy.get(':nth-child(4) > .rt-tr > :nth-child(6)')
+            .should('contain.text', usuarioUpdate.department)
 
     // Delete
     cy.get('#delete-record-4').click()
