@@ -5,7 +5,9 @@ describe('Janelas do navegador', () => {
   });
 
   it('Validar Título da página', () => {
-    cy.get('.text-center').should('be.visible').and('contain.text', 'Browser Windows');
+    cy.get('.text-center')
+      .should('be.visible')
+      .and('contain.text', 'Browser Windows');
   });
 
   it('Validar Button: New Tab abre URL correta', () => {
@@ -13,7 +15,10 @@ describe('Janelas do navegador', () => {
       cy.stub(win, 'open').callsFake(() => null).as('windowOpen');
     });
 
-    cy.get('#tabButton').click();
+    cy.get('#tabButton')
+      .should('be.visible')
+      .and('be.enabled')
+      .click();
 
     // Valida que window.open foi chamado uma vez e com a URL esperada
     cy.get('@windowOpen').should('have.been.calledOnce');
@@ -25,7 +30,10 @@ describe('Janelas do navegador', () => {
       cy.stub(win, 'open').callsFake(() => null).as('windowOpen');
     });
 
-    cy.get('#windowButton').click();
+    cy.get('#windowButton')
+      .should('be.visible')
+      .and('be.enabled')
+      .click();
 
     // Valida que window.open foi chamado uma vez e com a URL esperada
     cy.get('@windowOpen').should('have.been.calledOnce');
@@ -37,23 +45,23 @@ describe('Janelas do navegador', () => {
       cy.stub(win, 'open').callsFake(() => null).as('windowOpen');
     });
 
-    cy.get('#messageWindowButton').click();
+    cy.get('#messageWindowButton')
+      .should('be.visible')
+      .and('be.enabled')
+      .click();
 
     // Valida que window.open foi chamado uma vez
     cy.get('@windowOpen').should('have.been.calledOnce');
 
-    // Valida que a chamada foi feita para alguma URL do domínio demoqa
-    cy.get('@windowOpen').should('be.calledWith', '', 'MsgWindow', 'width=500,height=200');
+    // Valida que a chamada foi feita com os parâmetros esperados
+    cy.get('@windowOpen').should(
+      'be.calledWith',
+      '',
+      'MsgWindow',
+      'width=500,height=200'
+    );
   });
-}); // fim do describe
-
-
-
-
-
-
-
-
+});
 
 
 

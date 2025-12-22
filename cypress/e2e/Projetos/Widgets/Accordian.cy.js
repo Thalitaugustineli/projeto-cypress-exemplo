@@ -5,32 +5,44 @@ describe('Accordian', () => {
   });
 
   it('Validar Título da página', () => {
-    cy.get('.text-center').should('be.visible').and('contain.text', 'Accordian');
+    cy.get('.text-center')
+      .should('be.visible')
+      .and('contain.text', 'Accordian');
   });
 
-  it('Primeira Pergunta sempre aberta',()=>{
-    cy.get('#section1Heading').should('be.visible')
-    cy.get('#section1Content').should('be.visible')
+  it('Primeira Pergunta sempre aberta e toggle funcionando', () => {
+    cy.get('#section1Heading').should('be.visible');
+    cy.get('#section1Content').should('be.visible');
 
-    cy.get('#section1Heading').click()
-    cy.get('#section1Content').should('not.be.visible')
-  })
+    // Fecha a primeira seção
+    cy.get('#section1Heading').click();
+    cy.get('#section1Content').should('not.be.visible');
 
-it('Abrir e fechar perguntas', ()=>{
+    // Reabre para validar toggle
+    cy.get('#section1Heading').click();
+    cy.get('#section1Content').should('be.visible');
+  });
 
-    cy.get('#section1Heading').click() // fecha a primeira
-    cy.get('#section1Content').should('not.be.visible')
+  it('Abrir e fechar perguntas individualmente', () => {
+    // Fecha a primeira
+    cy.get('#section1Heading').click();
+    cy.get('#section1Content').should('not.be.visible');
 
-    cy.get('#section2Heading').should('be.visible').click()
-    cy.get('#section2Content').should('be.visible').click()
+    // Abre/fecha segunda
+    cy.get('#section2Heading').click();
+    cy.get('#section2Content').should('be.visible');
+    cy.get('#section2Heading').click();
+    cy.get('#section2Content').should('not.be.visible');
 
-    cy.get('#section3Heading').should('be.visible').click()
-    cy.get('#section3Content').should('be.visible').click()
+    // Abre/fecha terceira
+    cy.get('#section3Heading').click();
+    cy.get('#section3Content').should('be.visible');
+    cy.get('#section3Heading').click();
+    cy.get('#section3Content').should('not.be.visible');
+  });
 
-})
-
-it.only('Agrupamento de perguntas - Exemplos', ()=>{
-// A primeira já vem aberta
+  it('Agrupamento de perguntas - Exemplos', () => {
+    // A primeira já vem aberta
     cy.get('#section1Content').should('be.visible');
 
     // Fecha a primeira
@@ -48,21 +60,16 @@ it.only('Agrupamento de perguntas - Exemplos', ()=>{
     });
   });
 
+  it('Valida que apenas uma seção pode estar aberta por vez', () => {
+    // Abre segunda seção
+    cy.get('#section2Heading').click();
+    cy.get('#section2Content').should('be.visible');
 
+    // Abre terceira seção
+    cy.get('#section3Heading').click();
+    cy.get('#section3Content').should('be.visible');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  }); // fim do describe
+    // Valida que a segunda foi fechada automaticamente
+    cy.get('#section2Content').should('not.be.visible');
+  });
+});

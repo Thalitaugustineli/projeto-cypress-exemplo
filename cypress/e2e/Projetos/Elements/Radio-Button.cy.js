@@ -1,74 +1,81 @@
-describe('Radio Button', ()=>{
-    beforeEach(()=>{
-        cy.visit('https://demoqa.com/radio-button')
-        cy.viewport(1920,1080)
-    })
+describe('Radio Button', () => {
+  beforeEach(() => {
+    cy.visit('https://demoqa.com/radio-button');
+    cy.viewport(1920, 1080);
+  });
 
-    it('Validar Título e Texto', () => {
-        cy.get('.text-center').should('be.visible')
+  it('Validar Título e Texto da página', () => {
+    cy.get('.text-center')
+      .should('be.visible')
+      .and('contain.text', 'Radio Button');
 
-        // Validando Texto
-        cy.get('.mb-3').should('contain.text', 'Do you like the site?')
-        cy.get(':nth-child(2) > .custom-control-label').should('contain.text', 'Yes')
-        cy.get(':nth-child(3) > .custom-control-label').should('contain.text', 'Impressive')
-        cy.get('.custom-control.disabled > .custom-control-label').should('contain.text', 'No')
-    })
-    it('Selecionando pelo id', () => {
-        // Selecionando Yes
-        cy.get('#yesRadio').check({ force: true }).should('be.checked')
-        // Validação de resultado
-        cy.get('.text-success').should('have.text', 'Yes')
+    // Validando textos das opções
+    cy.get('.mb-3').should('contain.text', 'Do you like the site?');
+    cy.get(':nth-child(2) > .custom-control-label').should('contain.text', 'Yes');
+    cy.get(':nth-child(3) > .custom-control-label').should('contain.text', 'Impressive');
+    cy.get('.custom-control.disabled > .custom-control-label').should('contain.text', 'No');
+  });
 
-        // Selecionando Impressive
-        cy.get('#impressiveRadio').check({ force: true }).should('be.checked')
+  it('Selecionando pelo id', () => {
+    // Selecionando Yes
+    cy.get('#yesRadio').check({ force: true }).should('be.checked');
+    cy.get('.text-success').should('have.text', 'Yes');
 
-        // Validação de resultado
-        cy.get('.text-success').should('have.text', 'Impressive')
+    // Selecionando Impressive
+    cy.get('#impressiveRadio').check({ force: true }).should('be.checked');
+    cy.get('.text-success').should('have.text', 'Impressive');
 
-        // Pelo id do NO para confirmar que está desabilitado
-        cy.get('#noRadio').should('be.disabled')        
+    // Validando que o NO está desabilitado
+    cy.get('#noRadio').should('be.disabled');
+  });
 
-    })
+  // Teste ignorado devido ao HTML incorreto
+  it.skip('Selecionando pelo name', () => {
+    cy.get('input[name="like"]').check('yesRadio', { force: true }).should('be.checked');
+    cy.get('input[name="like"]').eq(1).should('be.disabled');
+  });
 
-    // Código do HTML Está incorreto - Desconsiderando it com 'name'
+  it('Selecionando pela label', () => {
+    cy.contains('label', 'Yes').click();
+    cy.get('.text-success').should('have.text', 'Yes');
 
-    it.skip('Selecionando pelo name', ()=>{
-        cy.get('input[name="like"]').check('yesRadio', { force: true }).should('be.checked')
-        cy.get('input[name="like"]').eq(1).should('be.disabled')
+    cy.contains('label', 'Impressive').click();
+    cy.get('.text-success').should('have.text', 'Impressive');
 
-    })
+    // Opção NO está desabilitada
+    cy.get('label[for="noRadio"]').should('have.class', 'disabled');
+  });
 
-    it('Selecionando pela label',()=>{
-        cy.contains('label', 'Yes').click()
-        // Validação de resultado
-        cy.get('.text-success').should('have.text', 'Yes')
+  it('Valida que o radio NO está desabilitado', () => {
+    cy.get('#noRadio').should('be.disabled');
+  });
 
-        cy.contains('label', 'Impressive').click()
-        // Validação de resultado
-        cy.get('.text-success').should('have.text', 'Impressive')
+  it('Valida que apenas uma opção pode ser selecionada', () => {
+    // Seleciona Yes
+    cy.get('#yesRadio').check({ force: true }).should('be.checked');
 
-        // Opção NO está desabilitada
-        cy.get('label[for="noRadio"]').should('have.class', 'disabled')
+    // Valida que somente Yes está marcado
+    cy.get('#impressiveRadio').should('not.be.checked');
+    cy.get('#noRadio').should('not.be.checked');
 
-        
-    })
-    it('Valida que o radio NO está desabilitado', () => {
-        cy.get('#noRadio').should('be.disabled')
-    })
+    // Seleciona Impressive
+    cy.get('#impressiveRadio').check({ force: true }).should('be.checked');
 
-    it('Valida que apenas uma opção pode ser selecionada', () => {
-        // Seleciona Yes
-        cy.get('#yesRadio').check({ force: true }).should('be.checked')
+    // Valida que somente Impressive está marcado
+    cy.get('#yesRadio').should('not.be.checked');
+    cy.get('#noRadio').should('not.be.checked');
+  });
 
-        // Valida que somente Yes está marcado
-        cy.get('#impressiveRadio').should('not.be.checked')
-        cy.get('#noRadio').should('not.be.checked')
+  it('Validação combinada de fluxo', () => {
+    // Seleciona Yes e valida
+    cy.contains('label', 'Yes').click();
+    cy.get('.text-success').should('have.text', 'Yes');
 
-        // Seleciona Impressive
-        cy.get('#impressiveRadio').check({ force: true }).should('be.checked')
+    // Seleciona Impressive e valida
+    cy.contains('label', 'Impressive').click();
+    cy.get('.text-success').should('have.text', 'Impressive');
 
-        // Valida que somente Impressive está marcado
-        cy.get('#yesRadio').should('not.be.checked')
-        cy.get('#noRadio').should('not.be.checked')
-})
-})
+    // Confirma que NO continua desabilitado
+    cy.get('#noRadio').should('be.disabled');
+  });
+});

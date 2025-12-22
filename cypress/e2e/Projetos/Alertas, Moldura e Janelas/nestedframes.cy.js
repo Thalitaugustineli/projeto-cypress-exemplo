@@ -1,43 +1,51 @@
-//
- // 
+describe('Nested Frames', () => {
+  beforeEach(() => {
+    cy.visit('https://demoqa.com/nestedframes');
+    cy.viewport(1920, 1080);
+  });
 
+  it('Validar Título e Texto da página', () => {
+    cy.get('.text-center')
+      .should('be.visible')
+      .and('contain.text', 'Nested Frames');
 
- describe('Nested Frames', ()=>{
-    beforeEach(()=>{
-        cy.visit('https://demoqa.com/nestedframes ')
-        cy.viewport(1920,1080)
-    })
+    // Valida texto explicativo da página
+    cy.get('#framesWrapper > :nth-child(2)')
+      .should('be.visible')
+      .and('contain.text', 'Sample Nested Iframe page')
+      .and('contain.text', 'nested iframes')
+      .and('contain.text', 'parent frame')
+      .and('contain.text', 'child frame');
+  });
 
-    it('Validar Título', ()=>{
-        cy.get('.text-center').should('be.visible').and('contain.text', 'Nested Frames');
+  it('Validação do Frame Pai e Frame Filho', () => {
+    // Carrega o frame pai
+    cy.frameLoaded('#frame1');
 
-        // Validar texto
-        cy.get('#framesWrapper > :nth-child(2)').should('contain.text', 'Sample Nested Iframe page. There are nested iframes in this page. Use browser inspecter or firebug to check out the HTML source. In total you can switch between the parent frame and the nested child frame.')
-    })
-    
-    it.only('Validando o Frame', ()=>{
-            // Carrega o frame pai
-            cy.frameLoaded('#frame1');
+    // Valida conteúdo do frame pai
+    cy.get('#frame1')
+      .its('0.contentDocument.body')
+      .should('not.be.empty')
+      .then(cy.wrap)
+      .should('contain.text', 'Parent frame');
 
-                cy.get('#frame1')
-                .its('0.contentDocument.body')
-                .should('not.be.empty')
-                .then(cy.wrap)  
-                .should('contain.text', 'Parent frame');
+    // Valida que o iframe filho existe dentro do pai
+    cy.get('#frame1')
+      .its('0.contentDocument.body')
+      .then(cy.wrap)
+      .find('iframe')
+      .should('exist')
+      .and('be.visible');
 
-                // Frame filho
-
-                cy.get('#frame1')
-                .its('0.contentDocument.body')
-                .then(cy.wrap)
-                .find('iframe')
-                .its('0.contentDocument.body')
-                .should('not.be.empty')
-                .then(cy.wrap)
-                .find('p')
-                .should('contain.text', 'Child Iframe');
-    });
- 
-
-
-    })// fim do describe
+    // Valida conteúdo do frame filho
+    cy.get('#frame1')
+      .its('0.contentDocument.body')
+      .then(cy.wrap)
+      .find('iframe')
+      .its('0.contentDocument.body')
+      .should('not.be.empty')
+      .then(cy.wrap)
+      .find('p')
+      .should('contain.text', 'Child Iframe');
+  });
+});

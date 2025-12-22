@@ -1,80 +1,85 @@
-
-
-// Site Para Testes de ToDO
-
 describe('Example to-do app', () => {
   beforeEach(() => {
-    cy.visit('https://todomvc.com/examples/javascript-es5/dist/')
-    cy.viewport(1600,900)
-  })
+    cy.visit('https://todomvc.com/examples/javascript-es5/dist/');
+    cy.viewport(1600, 900);
+  });
 
-  it('Validar o Title', ()=>{
-    cy.get('h1').should('be.visible')
-  })
+  it('Validar o Title', () => {
+    cy.get('h1')
+      .should('be.visible')
+      .and('contain.text', 'todos');
+  });
 
   it('Adicionando tarefas no ToDo', () => {
-    cy.get('.new-todo').should('be.visible').click()
+    const tarefas = [
+      'Tarefa 1',
+      'Tarefa 2',
+      'Tarefa 3',
+      'Tarefa 4',
+      'Tarefa 5',
+      'Tarefa 6',
+      'Tarefa 7'
+    ];
 
-      .type('Tarefa 1{enter}')
-      .type('Tarefa 2{enter}')
-      .type('Tarefa 3{enter}')
-      .type('Tarefa 4{enter}')
-      .type('Tarefa 5{enter}')
-      .type('Tarefa 6{enter}')
-      .type('Tarefa 7{enter}')
+    tarefas.forEach(tarefa => {
+      cy.get('.new-todo').type(`${tarefa}{enter}`);
+    });
 
-  })
+    // Valida que todas as tarefas foram adicionadas
+    cy.get('.todo-list li').should('have.length', tarefas.length);
+    tarefas.forEach(tarefa => {
+      cy.get('.todo-list').should('contain.text', tarefa);
+    });
+  });
 
-    it('Selecionando todas as Tarefas como OK', () => {
-    cy.get('.new-todo').should('be.visible').click()
-
-      .type('Tarefa 1{enter}')
-      .type('Tarefa 2{enter}')
-      .type('Tarefa 3{enter}')
-      .type('Tarefa 4{enter}')
-      .type('Tarefa 5{enter}')
-      .type('Tarefa 6{enter}')
-      .type('Tarefa 7{enter}')
+  it('Selecionando todas as Tarefas como OK', () => {
+    const tarefas = ['Tarefa 1', 'Tarefa 2', 'Tarefa 3'];
+    tarefas.forEach(tarefa => {
+      cy.get('.new-todo').type(`${tarefa}{enter}`);
+    });
 
     cy.get('.toggle-all-label').should('be.visible').click();
 
-  })
+    // Valida que todas estão concluídas
+    cy.get('.todo-list li').each($el => {
+      cy.wrap($el).should('have.class', 'completed');
+    });
+  });
 
-    it('Selecionando Tarefas de Maneira Manual', () => {
-    cy.get('.new-todo').should('be.visible').click()
-      .type('Tarefa 1{enter}')
-      .type('Tarefa 2{enter}')
-      .type('Tarefa 3{enter}')
-      .type('Tarefa 4{enter}')
-      .type('Tarefa 5{enter}')
-      .type('Tarefa 6{enter}')
-      .type('Tarefa 7{enter}')
+  it('Selecionando Tarefas de Maneira Manual', () => {
+    const tarefas = ['Tarefa 1', 'Tarefa 2', 'Tarefa 3', 'Tarefa 4'];
+    tarefas.forEach(tarefa => {
+      cy.get('.new-todo').type(`${tarefa}{enter}`);
+    });
 
-      cy.get('[data-id="1"] > .view > .toggle').click()
-      cy.get('[data-id="3"] > .view > .toggle').click()
-      cy.get('[data-id="5"] > .view > .toggle').click()
-      cy.get('[data-id="7"] > .view > .toggle').click()      
-  })
+    // Marca manualmente algumas tarefas
+    cy.get('[data-id="1"] > .view > .toggle').click();
+    cy.get('[data-id="3"] > .view > .toggle').click();
 
-    it('Limpando Seleção de Tarefas', () => {
-    cy.get('.new-todo').should('be.visible').click()
-      .type('Tarefa 1{enter}')
-      .type('Tarefa 2{enter}')
-      .type('Tarefa 3{enter}')
-      .type('Tarefa 4{enter}')
-      .type('Tarefa 5{enter}')
-      .type('Tarefa 6{enter}')
-      .type('Tarefa 7{enter}')
+    // Valida que apenas as selecionadas estão concluídas
+    cy.get('[data-id="1"]').should('have.class', 'completed');
+    cy.get('[data-id="3"]').should('have.class', 'completed');
+    cy.get('[data-id="2"]').should('not.have.class', 'completed');
+    cy.get('[data-id="4"]').should('not.have.class', 'completed');
+  });
 
-      cy.get('[data-id="1"] > .view > .toggle').click()
-      cy.get('[data-id="3"] > .view > .toggle').click()
-      cy.get('[data-id="5"] > .view > .toggle').click()
-      cy.get('[data-id="7"] > .view > .toggle').click()
-      
-      cy.get('.filters > :nth-child(2) > a').click();
-      cy.get('.filters > :nth-child(3) > a').click();
-      cy.get('.clear-completed').click();
-  })
+  it('Limpando Seleção de Tarefas', () => {
+    const tarefas = ['Tarefa 1', 'Tarefa 2', 'Tarefa 3'];
+    tarefas.forEach(tarefa => {
+      cy.get('.new-todo').type(`${tarefa}{enter}`);
+    });
 
-  })// Fim do describe
+    // Marca algumas como concluídas
+    cy.get('[data-id="1"] > .view > .toggle').click();
+    cy.get('[data-id="3"] > .view > .toggle').click();
 
+    // Filtra concluídas e limpa
+    cy.get('.filters > :nth-child(3) > a').click();
+    cy.get('.clear-completed').click();
+
+    // Valida que as concluídas foram removidas
+    cy.get('.todo-list').should('not.contain.text', 'Tarefa 1');
+    cy.get('.todo-list').should('not.contain.text', 'Tarefa 3');
+    cy.get('.todo-list').should('contain.text', 'Tarefa 2');
+  });
+});
