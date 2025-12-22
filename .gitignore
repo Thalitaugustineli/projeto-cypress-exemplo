@@ -1,3 +1,4 @@
 # Ignorar screenshots e vídeos do Cypress
 cypress/screenshots/
 cypress/videos/
+cypress\e2e\Projetos\Bradesco
