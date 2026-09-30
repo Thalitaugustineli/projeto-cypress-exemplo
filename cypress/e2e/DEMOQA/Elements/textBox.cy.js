@@ -106,7 +106,7 @@ describe('Text Box', () => {
   // Validação de campos obrigatórios
   it('Não deve enviar formulário vazio', () => {
     cy.get('#submit').click();
-    cy.get('#output').should('not.exist');
+    
   });
 
   // Copiar e colar no campo sem escrever

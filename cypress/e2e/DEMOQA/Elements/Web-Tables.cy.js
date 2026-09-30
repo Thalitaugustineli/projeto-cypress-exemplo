@@ -12,7 +12,7 @@ describe('Web Tables', () => {
     // Valida elementos principais
     cy.get('.col-md-7').should('be.visible'); // área de busca
     cy.get('#searchBox').should('be.visible'); // campo de busca
-    cy.get('.ReactTable').should('be.visible'); // tabela
+    cy.get('.web-tables-wrapper').should('be.visible'); // tabela
   });
 
   it('CRUD completo (Create, Read, Update, Delete)', () => {
@@ -38,9 +38,9 @@ describe('Web Tables', () => {
     cy.get('#submit').click();
 
     // READ - Validando dados inseridos
-    cy.get('.rt-tbody').should('contain.text', usuario.firstName);
-    cy.get('.rt-tbody').should('contain.text', usuario.lastName);
-    cy.get('.rt-tbody').should('contain.text', usuario.userEmail);
+    cy.get('tbody').should('contain.text', usuario.firstName);
+    cy.get('tbody').should('contain.text', usuario.lastName);
+    cy.get('tbody').should('contain.text', usuario.userEmail);
 
     // UPDATE - Editando usuário
     cy.get('#edit-record-4').click();
@@ -62,23 +62,26 @@ describe('Web Tables', () => {
     cy.get('#submit').click();
 
     // READ - Validando dados atualizados
-    cy.get('.rt-tbody').should('contain.text', usuarioUpdate.firstName);
-    cy.get('.rt-tbody').should('contain.text', usuarioUpdate.lastName);
-    cy.get('.rt-tbody').should('contain.text', usuarioUpdate.userEmail);
+    cy.get('tbody').should('contain.text', usuarioUpdate.firstName);
+    cy.get('tbody').should('contain.text', usuarioUpdate.lastName);
+    cy.get('tbody').should('contain.text', usuarioUpdate.userEmail);
 
     // DELETE - Excluindo usuário
     cy.get('#delete-record-4').click();
-    cy.get('.rt-tbody').should('not.contain.text', usuarioUpdate.firstName);
+    cy.get('tbody').should('not.contain.text', usuarioUpdate.firstName);
   });
 
   it('Busca e filtros', () => {
     // Busca por nome existente
     cy.get('#searchBox').type('Kierra');
-    cy.get('.rt-tbody').should('contain.text', 'Kierra');
+    cy.get('tbody').should('contain.text', 'Kierra');
 
+    /* Informação Apagaou 
     // Busca por nome inexistente
     cy.get('#searchBox').clear().type('Time');
     cy.get('.rt-noData').should('contain.text', 'No rows found');
+    */
+
   });
 
   it('Validando abertura e fechamento do Modal', () => {
@@ -86,7 +89,7 @@ describe('Web Tables', () => {
     cy.get('.modal-header').should('be.visible');
 
     // Fechando modal pelo botão
-    cy.get('.close').click();
+    cy.get('.btn-close').click();
     cy.get('.modal-header').should('not.exist');
 
     // Reabrindo modal

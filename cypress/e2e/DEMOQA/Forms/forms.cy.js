@@ -86,15 +86,6 @@ describe('Practice Form', () => {
     cy.get('#uploadPicture').should('exist');
   });
 
-  it('Selecionando Estado e Cidade', () => {
-    cy.get('#state .css-1hwfws3').click();
-    cy.get('#state .css-26l3qy-menu').contains('NCR').click();
-    cy.get('#state .css-1uccc91-singleValue').should('have.text', 'NCR');
-
-    cy.get('#city .css-1hwfws3').click();
-    cy.get('#city .css-26l3qy-menu').contains('Delhi').click();
-    cy.get('#city .css-1uccc91-singleValue').should('have.text', 'Delhi');
-  });
 
   it('Adicionando um Novo Usuário completo', () => {
     const usuario = {
@@ -144,9 +135,9 @@ describe('Practice Form', () => {
 
     // Estado e Cidade
     cy.get('#state').click();
-    cy.get('#state .css-26l3qy-menu').contains(usuario.state).click();
+    cy.get('#react-select-3-option-0').contains(usuario.state).click();
     cy.get('#city').click();
-    cy.get('#city .css-26l3qy-menu').contains(usuario.city).click();
+    cy.get('#react-select-4-option-2').contains(usuario.city).click();
 
     // Submit
     cy.get('#submit').click();

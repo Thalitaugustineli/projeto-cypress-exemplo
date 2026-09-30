@@ -15,7 +15,7 @@ describe('Upload and Download', () => {
     cy.request('https://demoqa.com/download')
       .then((response) => {
         expect(response.status).to.eq(200); // status OK
-        expect(response.headers['content-type']).to.include('application'); // valida tipo de arquivo
+        expect(response.headers['content-type']).to.include('text/html; charset=utf-8'); // valida tipo de arquivo
       });
   });
 

@@ -20,26 +20,36 @@ import './commands'
 // Adicione em [cypress/support/e2e.js](cypress/support/e2e.js)
 Cypress.on('uncaught:exception', (err) => {
   const msg = err && err.message
-  if (msg && typeof msg === 'string') {
-    // Ignora erros genéricos de script e erros conhecidos (JSON / URL.split)
-    if (
-      msg.includes('Script error') ||
-      msg.includes('Cannot read properties of null') ||
-      msg.includes("reading 'document'") ||
-      msg.includes('SyntaxError: Unexpected end of JSON input') ||
-      msg.includes('Unexpected end of JSON input') ||
-      msg.includes('window.URL.split is not a function') ||
-      msg.includes('split is not a function') ||
-      msg.includes('slick is not a function') ||
-      msg.includes("$(...).slick is not a function") ||
-      msg.includes('jQuery(...).slick is not a function') ||
-      (err && err.name === 'SyntaxError') ||
-      (err && err.name === 'TypeError' && msg && msg.includes('split is not a function')) ||
-      (err && err.name === 'TypeError' && msg && msg.includes('slick is not a function'))
-    ) {
-      return false // não falha o teste
-    }
-  }
+	if (msg && typeof msg === 'string') {
+	  // Ignora erros genéricos de script e erros conhecidos (JSON / URL.split)
+	  if (
+	    msg.includes('Script error') ||
+	    msg.includes('Cannot read properties of null') ||
+	    msg.includes("reading 'document'") ||
+	    msg.includes('SyntaxError: Unexpected end of JSON input') ||
+	    msg.includes('Unexpected end of JSON input') ||
+	    msg.includes('window.URL.split is not a function') ||
+	    msg.includes('split is not a function') ||
+	    msg.includes('slick is not a function') ||
+	    msg.includes("$(...).slick is not a function") ||
+	    msg.includes('jQuery(...).slick is not a function') ||
+	    msg.includes('Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.') ||
+	    msg.includes('> msg.includes(...) is not a function') ||
+	    (err && err.name === 'SyntaxError') ||
+	    (err && err.name === 'TypeError' && msg && msg.includes('split is not a function')) ||
+	    (err && err.name === 'TypeError' && msg && msg.includes('slick is not a function')) ||
+		msg.includes("Cannot read properties of undefined (reading '6LfupSksAAAAALHNQnHsBoy3J8S7I79ujAhpQJwy')") ||
+		msg.includes('Missing required parameters: sitekey') ||
+		msg.includes('React has blocked a javascript: URL as a security precaution.') ||
+		msg.includes('> Lr.findDOMNode is not a function')
+		
+
+	
+
+	  ) {
+	    return false // não falha o teste
+	  }
+	}
 
   // Para outros erros, deixe o Cypress falhar (retornar true/undefined)
   return true

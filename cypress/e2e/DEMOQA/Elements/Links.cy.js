@@ -18,17 +18,14 @@ describe('Links', () => {
 
   it('Lidando com Links que abrem em outras Abas', () => {
     cy.get('#simpleLink')
-      .should('have.attr', 'href')
-      .and('include', 'demoqa.com')
-      .invoke('removeAttr', 'target') // remove o atributo target
-      .click();
+      .should('be.visible')
+      .invoke('attr', 'href')
+      .then((url) => {
+        cy.visit(url)
+      })
 
-    // Validação: garantir que a URL mudou para o destino esperado
-    cy.url().should('include', 'demoqa.com');
-
-    // Voltando para a página inicial
-    cy.visit('https://demoqa.com/links');
-  });
+    cy.url().should('include', 'demoqa.com')
+  })
 
   it('Validar link dinâmico', () => {
     cy.get('#dynamicLink')

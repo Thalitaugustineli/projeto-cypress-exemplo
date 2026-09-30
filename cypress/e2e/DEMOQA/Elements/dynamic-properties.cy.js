@@ -31,7 +31,7 @@ describe('Propriedades Dinâmicas - Images', () => {
     // Agora visível
     cy.get('#visibleAfter')
       .should('be.visible')
-      .and('contain.text', 'This text has appeared after 5 seconds');
+      .and('contain.text', 'Visible After 5 Seconds');
   });
 
   it('Botão muda de cor após delay', () => {

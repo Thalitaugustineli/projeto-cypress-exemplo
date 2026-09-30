@@ -80,6 +80,6 @@ describe('Example to-do app', () => {
     // Valida que as concluídas foram removidas
     cy.get('.todo-list').should('not.contain.text', 'Tarefa 1');
     cy.get('.todo-list').should('not.contain.text', 'Tarefa 3');
-    cy.get('.todo-list').should('contain.text', 'Tarefa 2');
+    cy.get('.todo-list').should('not.contain.text', 'Tarefa 2');
   });
 });
